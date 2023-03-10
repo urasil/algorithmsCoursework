@@ -1,0 +1,157 @@
+Sequential Search
+
+class SequentialSearchSet(AbstractSet):
+
+    def __init__(self):    
+        self.lst = []
+        pass           
+     
+    def insertElement(self, element):
+        inserted = False
+        if element in self.lst:
+            inserted = False
+        else:
+            self.lst.append(element)
+            inserted = True
+
+        return inserted
+    
+    
+
+    def searchElement(self, element):     
+        found = False
+        if element in self.lst:
+            found = True
+    
+        return found    
+
+seq = SequentialSearchSet()
+toRead(seq)
+print(seq.searchElement("coral"))
+print(seq.searchElement("uras"))
+
+
+
+
+Binary Search Tree 
+
+class BinarySearchTreeSet(AbstractSet):
+    
+    def __init__(self, element): 
+        self.right = None
+        self.left = None
+        self.element = element
+        
+    def insertElement(self, element):
+        inserted = False
+        
+        if self.element == element:
+            inserted = True
+            
+        elif self.element > element:
+            if self.left is None:
+                self.left = BinarySearchTreeSet(element)
+                inserted = True
+            else:
+                self.left.insertElement(element)
+                
+        else:
+            if self.right is None:
+                self.right = BinarySearchTreeSet(element)
+                inserted = True
+            else:
+                self.right.insertElement(element)
+        
+        return inserted
+
+    def searchElement(self, element):     
+        found = False
+        if element == self.element:
+            found = True
+        
+        elif self.element > element:
+            if self.left is not None:
+                return self.left.searchElement(element)
+        else:
+            if self.right is not None:
+                return self.right.searchElement(element)
+        
+        return found 
+    
+tree = BinarySearchTreeSet("start")
+toRead(tree)
+#/home/uras/Documents/COMP0002/Algorithms/algorithmsCoursework/testfiles/test1-mobydick.txt
+print(tree.searchElement("coral"))
+print(tree.searchElement("uras"))
+
+
+
+
+Bloom Filter
+
+class BloomFilterSet(AbstractSet):
+    
+    def __init__(self,size):
+        self.size = size 
+        self.buckets = [0] * self.size           
+        
+    def insertElement(self, element):
+        inserted = False
+        hashValue = self.hashFunction(element)
+        self.buckets[hashValue] = 1
+        return hashValue
+
+    def searchElement(self, element):     
+        found = False
+        # ADD YOUR CODE HERE
+        hashValue = self.hashFunction(element)
+        if self.buckets[hashValue] == 1:
+            found = True
+        return found    
+
+    def hashFunction(self, element):
+        return hash(element) % self.size
+
+bloom = BloomFilterSet(1000000)
+
+
+
+toRead(bloom)
+print(bloom.searchElement("qayyum"))
+print(bloom.searchElement("alexio"))/home/uras/Documents/COMP0002/Algorithms/algorithmsCoursework/testfiles/test1-mobydick.txt
+print(bloom.searchElement("coral"))
+
+
+
+
+Auxiliary toRead toRead()
+
+def toRead(a):
+    file = open(input("enter the file name: "), "r")
+    for line in file:
+        for word in line.split():
+            a.insertElement(word)
+    file.close()
+
+
+
+
+Random data generation
+
+import string
+import random
+
+class TestDataGenerator(AbstractTestDataGenerator):
+    
+    def __init__(self):
+        pass           
+        
+    def generateData(self, size):     
+        data = [""]*size
+
+        for i in range(len(data)):
+            length = random.randint(1,10)
+            for _ in range(length):
+                data[i] += (random.choice(string.ascii_lowercase)) 
+                
+        return data 
